@@ -1,0 +1,9 @@
+{
+  "name": "code-challenges",
+  "version": "1.0.0",
+  "description": "templates for test your challenges",
+  "author": "mcaligares@gmail.com",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
