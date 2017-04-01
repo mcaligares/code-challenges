@@ -2,7 +2,9 @@ var fs = require('fs');
 var gulp = require('gulp');
 var yargs = require('yargs');
 var copydir = require('copy-dir');
+//TODO add readline option
 
+//TODO use a file config
 var enabledLanguages = [
     'javascript'
 ];
@@ -18,6 +20,7 @@ var args = yargs
             .choices('l', enabledLanguages)
         .argv;
 
+//TODO use a file config
 var ignoreFiles = {
     'javascript': [
         'node_modules'
@@ -73,6 +76,7 @@ function buildWorkspaceToChallange(userChallengeWorkspacePath, language) {
             fs.mkdirSync(userChallengeWorkspacePath);
             copydir.sync(templateForLanguagePath, userChallengeWorkspacePath);
             ignoreFilesOnWorkspace(userChallengeWorkspacePath, language);
+            //TODO go to workspace and run test
         }
         if (args.username != 'anonymous') {
             console.log('you are ready to work! good luck ' + args.username +'!');
@@ -88,7 +92,6 @@ function ignoreFilesOnWorkspace(path, language) {
     for (var i in ignoredFilesByLanguage) {
         fs.writeFileSync(gitIgnoreFile, ignoredFilesByLanguage[i]);
     }
-    console.log(fs.readFileSync(gitIgnoreFile, {encoding: 'utf-8'}));
 }
 
 function readChallenge(challenge) {
