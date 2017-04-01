@@ -4,6 +4,7 @@
   "description": "templates for test your challenges",
   "author": "mcaligares@gmail.com",
   "devDependencies": {
+    "copy-dir": "^0.3.0",
     "gulp": "^3.9.1",
     "yargs": "^7.0.2"
   }
