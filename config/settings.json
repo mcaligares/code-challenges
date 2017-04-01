@@ -1,0 +1,18 @@
+{
+    "usersPath": "./users",
+    "templatesPath": "./templates",
+    "challengesPath": "./challenges",
+    "languages": [
+        "javascript"
+    ],
+    "ignoreFiles": {
+        "javascript": [
+            "node_modules"
+        ]
+    },
+    "default": {
+        "username": "anonymous",
+        "languages": "javascript"
+    }
+
+}
