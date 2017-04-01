@@ -3,11 +3,15 @@
     "templatesPath": "./templates",
     "challengesPath": "./challenges",
     "languages": [
+        "groovy",
         "javascript"
     ],
     "ignoreFiles": {
         "javascript": [
             "node_modules"
+        ],
+        "groovy": [
+            "*.class"
         ]
     },
     "default": {
