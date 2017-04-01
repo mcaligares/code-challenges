@@ -4,14 +4,19 @@
     "challengesPath": "./challenges",
     "languages": [
         "groovy",
+        "java",
         "javascript"
     ],
     "ignoreFiles": {
-        "javascript": [
-            "node_modules"
-        ],
         "groovy": [
             "*.class"
+        ],
+        "java": [
+            "target",
+            "*.class"
+        ],
+        "javascript": [
+            "node_modules"
         ]
     },
     "default": {
