@@ -11,6 +11,9 @@
   "devDependencies": {
     "copy-dir": "^0.3.0",
     "gulp": "^3.9.1",
+    "gulp-confirm": "^1.0.6",
+    "gulp-util": "^3.0.8",
+    "through2": "^2.0.3",
     "yargs": "^7.0.2"
   }
 }
