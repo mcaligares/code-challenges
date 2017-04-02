@@ -9,7 +9,6 @@ var confirm = require('gulp-confirm');
 var settings = JSON.parse(fs.readFileSync('./config/settings.json', 'utf8'));
 
 var args = yargs
-        .alias('s', 'skip')
         .alias('i', 'interactive')
         .alias('u', 'username').describe('u', 'your username')
         .alias('l', 'language').describe('l', 'your language')
@@ -40,7 +39,11 @@ var showHeader = through.obj(function(chunk, enc, cb) {
 });
 
 var validateArgs = through.obj(function(chunk, enc, cb) {
-    if (!username) username = settings.default.username;
+    if (!username) {
+        gutil.log(gutil.colors.red('Usuario inválido'),
+            gutil.colors.reset('Indica el nombre de tu usuario'));
+        process.exit();
+    }
     if (settings.languages.indexOf(language) == -1) {
         gutil.log(gutil.colors.red('Lenguaje inválido!'),
                 gutil.colors.reset(settings.languages));
@@ -148,7 +151,7 @@ gulp.task('intro', function() {
         .pipe(args.interactive ? showHeader : gutil.noop())
         .pipe(args.interactive ? confirm(confirmUsername) : gutil.noop())
         .pipe(args.interactive ? confirm(confirmLanguage) : gutil.noop())
-        .pipe(through.obj(validateArgs))
+        .pipe(validateArgs)
         .pipe(getLastChallenge)
         .pipe(createChallengeWorkspace)
         .pipe(ignoreFilesOnWorkspace)
