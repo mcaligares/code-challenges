@@ -26,7 +26,7 @@ var getLanguageWorkspace = function() {
     return settings.templatesPath + '/' + language;
 };
 
-gulp.task('default', ['check','intro']);
+gulp.task('default', ['check', 'intro']);
 
 gulp.task('check', function() {
     if (!fs.existsSync(settings.usersPath)) fs.mkdirSync(settings.usersPath);
