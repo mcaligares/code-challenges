@@ -22,6 +22,17 @@
     "default": {
         "username": "anonymous",
         "languages": "javascript"
+    },
+    "script": {
+        "java": [
+            "mvn test"
+        ],
+        "javascript": [
+            "npm install && karma start karma.config.js"
+        ],
+        "groovy": [
+            "groovy CodeChallenge.groovy"
+        ]
     }
 
 }

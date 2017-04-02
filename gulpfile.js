@@ -112,6 +112,17 @@ var prepareChallenge = through.obj(function(challenge, enc, cb) {
     cb(null, challenge);
 });
 
+var executeScript = through.obj(function(challenge, enc, cb) {
+    var userWorkspace = getUserWorkspace();
+    var userChallange = userWorkspace + '/' + challenge.name;
+    gutil.log(gutil.colors.reset('cd '), userChallange);
+
+    var scripts = settings.script[language];
+    for (var i in scripts) {
+        gutil.log(gutil.colors.reset(scripts[i]));
+    }
+});
+
 gulp.task('intro', function() {
     var userQuest = gutil.colors.reset('Usuario')
         + (username ? gutil.colors.dim(' (' + username + ')') : '');
@@ -141,5 +152,6 @@ gulp.task('intro', function() {
         .pipe(getLastChallenge)
         .pipe(createChallengeWorkspace)
         .pipe(ignoreFilesOnWorkspace)
-        .pipe(prepareChallenge);
+        .pipe(prepareChallenge)
+        .pipe(executeScript);
 });
