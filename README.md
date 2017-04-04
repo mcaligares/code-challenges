@@ -39,6 +39,11 @@ gulp -interactive
         <td>o</td>
         <td>Sobreescribir workspace</td>
     </tr>
+    <tr>
+        <td>folder</td>
+        <td>f</td>
+        <td>Nombre de la carpeta contenedora del workspace</td>
+    </tr>
 </table>
 
 ## Crear nuevo reto
@@ -57,4 +62,11 @@ Para participar en un reto se coordinará la hora de inicio con los demas partic
 ```bash
 #cambiar a rama develop y traer cambios
 gulp update
+```
+## Crear un workspace
+```bash
+#crear workspace
+gulp init -u mcaligares -l java -f mytest
+#crear workspace en modo interactivo
+gulp init -i
 ```
