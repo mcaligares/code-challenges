@@ -52,3 +52,9 @@ El reto deberá contar con:
 
 ## Participar en un reto
 Para participar en un reto se coordinará la hora de inicio con los demas participantes. Llegado el momento se procederá a resolver el reto. Una vez terminado o finalizado se subirán los cambios para que los demás participantes puedan ver las diferentes soluciones.
+
+## Actualizar repositorio
+```bash
+#cambiar a rama develop y traer cambios
+gulp update
+```
