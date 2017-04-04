@@ -2,40 +2,42 @@
 ### Retos lógicos para resolver con programación.
 
 ## Uso
-
-### Crear nuevo workspace
 ```bash
+#crear nuevo workspace
+gulp --username mcaligares --language java
+#crear nuevo workspace con alias
 gulp -u mcaligares -l java
-```
-### Crear nuevo workspace de forma interactiva
-```bash
+#sobreescribir workspace
+gulp -u mcaligares -l javascript -o
+#crear workspace de forma interactiva
 gulp -interactive
 ```
 ## Opciones
 <table>
     <tr>
-        <td>*Parámetro*</td>
-        <td>*Descripción*</td>
+        <td>Parámetro</td>
+        <td>Alias</td>
+        <td>Descripción</td>
     </tr>
     <tr>
         <td>username</td>
+        <td>u</td>
         <td>nombre del usuario que resolverá el reto.</td>
     </tr>
     <tr>
-        <td>u</td>
-        <td>alias de username.</td>
-    </tr>
-    <tr>
         <td>language</td>
+        <td>l</td>
         <td>Lenguaje con el cual el usuario resolverá el reto.</td>
     </tr>
     <tr>
-        <td>l</td>
-        <td>alias de language.</td>
+        <td>interactive</td>
+        <td>i</td>
+        <td>Activar el modo interactivo.</td>
     </tr>
     <tr>
-        <td>interactive</td>
-        <td>Activar el modo interactivo.</td>
+        <td>override</td>
+        <td>o</td>
+        <td>Sobreescribir workspace</td>
     </tr>
 </table>
 
