@@ -12,6 +12,7 @@ var settings = JSON.parse(fs.readFileSync('./config/settings.json', 'utf8'));
 var args = yargs
         .alias('o', 'override')
         .alias('i', 'interactive')
+        .alias('f', 'folder').describe('n', 'folder name')
         .alias('u', 'username').describe('u', 'your username')
         .alias('l', 'language').describe('l', 'your language')
             .default('l', settings.default.language)//.choices('l', settings.languages)
@@ -19,6 +20,7 @@ var args = yargs
 
 var username = args.username;
 var language = args.language;
+var folder = args.folder;
 
 var getUserWorkspace = function() {
     return settings.usersPath + '/' + username;
@@ -33,6 +35,9 @@ gulp.task('check', function() {
     if (!fs.existsSync(settings.usersPath)) fs.mkdirSync(settings.usersPath);
     if (!fs.existsSync(settings.templatesPath)) fs.mkdirSync(settings.templatesPath);
     if (!fs.existsSync(settings.challengesPath)) fs.mkdirSync(settings.challengesPath);
+
+    var userWorkspace = getUserWorkspace();
+    if (!fs.existsSync(userWorkspace)) fs.mkdirSync(userWorkspace);
 });
 
 gulp.task('update', function(cb) {
@@ -81,7 +86,6 @@ var validateArgs = through.obj(function(chunk, enc, cb) {
 
 var getLastChallenge = through.obj(function(chunk, enc, cb) {
     var userWorkspace = getUserWorkspace();
-    if (!fs.existsSync(userWorkspace)) fs.mkdirSync(userWorkspace);
 
     var lastChallange = getLastFileModified(fs.readdirSync(settings.challengesPath));
     if (!lastChallange) {
@@ -166,8 +170,7 @@ var prepareChallenge = through.obj(function(challenge, enc, cb) {
 
 var executeScript = through.obj(function(challenge, enc, cb) {
     var userWorkspace = getUserWorkspace();
-    var userChallange = userWorkspace + '/' + challenge.name;
-    gutil.log(gutil.colors.reset('cd '), userChallange);
+    gutil.log(gutil.colors.reset('cd '), challenge.path);
 
     var scripts = settings.script[language];
     for (var i in scripts) {
@@ -176,33 +179,6 @@ var executeScript = through.obj(function(challenge, enc, cb) {
 });
 
 gulp.task('start', ['update'], function() {
-    var userQuest = gutil.colors.reset('Usuario')
-        + (username ? gutil.colors.dim(' (' + username + ')') : '');
-    var confirmUsername = {
-        question: userQuest,
-        proceed: function(answer) {
-            if (answer) username = answer;
-            return true;
-        }
-    };
-
-    var langQuest = gutil.colors.reset('Lenguaje')
-        + (language ? gutil.colors.dim(' (' + language + ')') : '');
-    var confirmLanguage = {
-        question: langQuest,
-        proceed: function(answer) {
-            if (answer) language = answer;
-            return true;
-        }
-    };
-
-    var challengeOverride = {
-        question: gutil.colors.reset('Ya existe un workspace para codear el reto. Deseas borralo? S/N'),
-        proceed: function(answer) {
-            return (answer && answer.toUpperCase() == 'S');
-        }
-    };
-
     return gulp.src(settings.templatesPath)
         .pipe(args.interactive ? showHeader : gutil.noop())
         .pipe(args.interactive ? confirm(confirmUsername) : gutil.noop())
@@ -214,4 +190,62 @@ gulp.task('start', ['update'], function() {
         .pipe(ignoreFilesOnWorkspace)
         .pipe(prepareChallenge)
         .pipe(executeScript);
+});
+var userQuest = gutil.colors.reset('Usuario')
+    + (username ? gutil.colors.dim(' (' + username + ')') : '');
+var confirmUsername = {
+    question: userQuest,
+    proceed: function(answer) {
+        if (answer) username = answer;
+        return true;
+    }
+};
+var langQuest = gutil.colors.reset('Lenguaje')
+    + (language ? gutil.colors.dim(' (' + language + ')') : '');
+var confirmLanguage = {
+    question: langQuest,
+    proceed: function(answer) {
+        if (answer) language = answer;
+        return true;
+    }
+};
+var folderQuest = gutil.colors.reset('Nombre de carpeta')
+    + (folder ? gutil.colors.dim(' (' + folder + ')') : '');
+var confirmFolder = {
+    question: folderQuest,
+    proceed: function(answer) {
+        if (answer) folder = answer;
+        return true;
+    }
+};
+var challengeOverride = {
+    question: gutil.colors.reset('Ya existe un workspace para codear el reto. Deseas borralo? S/N'),
+    proceed: function(answer) {
+        return (answer && answer.toUpperCase() == 'S');
+    }
+};
+
+gulp.task('init', ['check'], function() {
+    return gulp.src(settings.templatesPath)
+        .pipe(args.interactive ? showHeader : gutil.noop())
+        .pipe(args.interactive ? confirm(confirmUsername) : gutil.noop())
+        .pipe(args.interactive ? confirm(confirmLanguage) : gutil.noop())
+        .pipe(args.interactive ? confirm(confirmFolder) : gutil.noop())
+        .pipe(validateArgs)
+        .pipe(buildEmptyChallenge)
+        .pipe(args.interactive ? confirm(challengeOverride) : checkForChallange)
+        .pipe(createChallengeWorkspace)
+        .pipe(ignoreFilesOnWorkspace)
+        .pipe(executeScript);
+});
+
+var buildEmptyChallenge = through.obj(function(obj, enc, cb) {
+    if (!folder) {
+        gutil.log(gutil.colors.reset('Carpeta no especificada'),
+            gutil.colors.reset('Prueba con el parámetro'), gutil.colors.bold('-f (folder)'));
+        process.exit();
+    }
+    var userFolder = getUserWorkspace();
+    obj = {path: userFolder + '/' + folder}
+    cb(null, obj);
 });
