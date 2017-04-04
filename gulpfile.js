@@ -9,6 +9,7 @@ var confirm = require('gulp-confirm');
 var settings = JSON.parse(fs.readFileSync('./config/settings.json', 'utf8'));
 
 var args = yargs
+        .alias('o', 'override')
         .alias('i', 'interactive')
         .alias('u', 'username').describe('u', 'your username')
         .alias('l', 'language').describe('l', 'your language')
@@ -86,6 +87,34 @@ function getLastFileModified(/*Array*/ files) {
     return resultFile;
 }
 
+var checkForChallange = through.obj(function(challenge, enc, cb) {
+    var languageWorkspace = getLanguageWorkspace();
+
+    if (fs.existsSync(challenge.path)) {
+        if (args.override) {
+            deleteFilesAndFolder(challenge.path);
+        } else {
+            gutil.log(gutil.colors.reset('Ya existe un workspace para el reto.'),
+                gutil.colors.reset('Prueba con el parámetro'), gutil.colors.bold('-o (--override).'));
+            process.exit();
+        }
+    }
+    cb(null, challenge);
+});
+
+function deleteFilesAndFolder(folder) {
+    var files = fs.readdirSync(folder);
+    for (var i in files) {
+        var filename = files[i];
+        if (fs.statSync(folder + '/' + filename).isDirectory()) {
+            deleteFilesAndFolder(folder + '/' + filename);
+        } else {
+            fs.unlinkSync(folder + '/' + filename);
+        }
+    }
+    fs.rmdirSync(folder);
+}
+
 var createChallengeWorkspace = through.obj(function(challenge, enc, cb) {
     var languageWorkspace = getLanguageWorkspace();
 
@@ -147,12 +176,20 @@ gulp.task('intro', function() {
         }
     };
 
+    var challengeOverride = {
+        question: gutil.colors.reset('Ya existe un workspace para codear el reto. Deseas borralo? S/N'),
+        proceed: function(answer) {
+            return (answer && answer.toUpperCase() == 'S');
+        }
+    };
+
     return gulp.src(settings.templatesPath)
         .pipe(args.interactive ? showHeader : gutil.noop())
         .pipe(args.interactive ? confirm(confirmUsername) : gutil.noop())
         .pipe(args.interactive ? confirm(confirmLanguage) : gutil.noop())
         .pipe(validateArgs)
         .pipe(getLastChallenge)
+        .pipe(args.interactive ? confirm(challengeOverride) : checkForChallange)
         .pipe(createChallengeWorkspace)
         .pipe(ignoreFilesOnWorkspace)
         .pipe(prepareChallenge)
