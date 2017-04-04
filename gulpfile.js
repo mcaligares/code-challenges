@@ -1,6 +1,7 @@
 var fs = require('fs');
 var gulp = require('gulp');
 var yargs = require('yargs');
+var git = require('gulp-git');
 var gutil = require('gulp-util');
 var copydir = require('copy-dir');
 var through = require('through2');
@@ -26,12 +27,31 @@ var getLanguageWorkspace = function() {
     return settings.templatesPath + '/' + language;
 };
 
-gulp.task('default', ['check', 'intro']);
+gulp.task('default', ['check', 'update', 'start']);
 
 gulp.task('check', function() {
     if (!fs.existsSync(settings.usersPath)) fs.mkdirSync(settings.usersPath);
     if (!fs.existsSync(settings.templatesPath)) fs.mkdirSync(settings.templatesPath);
     if (!fs.existsSync(settings.challengesPath)) fs.mkdirSync(settings.challengesPath);
+});
+
+gulp.task('update', function(cb) {
+    git.checkout('develop', {quiet: true}, function (err) {
+        if (!err) {
+            git.pull('origin', 'develop', {quiet: true}, function (err) {
+                if (!err) {
+                    gutil.log(gutil.colors.reset('rama'), gutil.colors.bold('develop'), gutil.colors.reset('actualizada'));
+                    cb();
+                } else {
+                    gutil.log(gutil.colors.yellow('Error al hacer'), gutil.colors.yellow.bold('git pull origin develop'));
+                    process.exit();
+                }
+            });
+        } else {
+            gutil.log(gutil.colors.yellow('Error al hacer'), gutil.colors.yellow.bold('git checkout develop'));
+            process.exit();
+        }
+    });
 });
 
 var showHeader = through.obj(function(chunk, enc, cb) {
@@ -155,7 +175,7 @@ var executeScript = through.obj(function(challenge, enc, cb) {
     }
 });
 
-gulp.task('intro', function() {
+gulp.task('start', ['update'], function() {
     var userQuest = gutil.colors.reset('Usuario')
         + (username ? gutil.colors.dim(' (' + username + ')') : '');
     var confirmUsername = {
