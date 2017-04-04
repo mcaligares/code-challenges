@@ -36,8 +36,10 @@ gulp.task('check', function() {
     if (!fs.existsSync(settings.templatesPath)) fs.mkdirSync(settings.templatesPath);
     if (!fs.existsSync(settings.challengesPath)) fs.mkdirSync(settings.challengesPath);
 
-    var userWorkspace = getUserWorkspace();
-    if (!fs.existsSync(userWorkspace)) fs.mkdirSync(userWorkspace);
+    if (username) {
+        var userWorkspace = getUserWorkspace();
+        if (!fs.existsSync(userWorkspace)) fs.mkdirSync(userWorkspace);
+    }
 });
 
 gulp.task('update', function(cb) {
@@ -197,6 +199,8 @@ var confirmUsername = {
     question: userQuest,
     proceed: function(answer) {
         if (answer) username = answer;
+        var userWorkspace = getUserWorkspace();
+        if (!fs.existsSync(userWorkspace)) fs.mkdirSync(userWorkspace);
         return true;
     }
 };
@@ -233,7 +237,7 @@ gulp.task('init', ['check'], function() {
         .pipe(args.interactive ? confirm(confirmFolder) : gutil.noop())
         .pipe(validateArgs)
         .pipe(buildEmptyChallenge)
-        .pipe(args.interactive ? confirm(challengeOverride) : checkForChallange)
+        .pipe(args.interactive  ? confirm(challengeOverride) : checkForChallange)
         .pipe(createChallengeWorkspace)
         .pipe(ignoreFilesOnWorkspace)
         .pipe(executeScript);
