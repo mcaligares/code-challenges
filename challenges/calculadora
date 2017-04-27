@@ -1,0 +1,26 @@
+Cada mensaje consta sólo de minúsculas de la "a" la "z" y el carácter " " (espacio, que se emite presionando cero).
+
+
+Entrada 
+
+4
+
+hi
+
+yes
+
+foo bar
+
+hello world
+
+
+
+Salida
+
+Caso #1: 44 444
+
+Caso #2: 999337777
+
+Caso #3: 333666 6660 022 2777
+
+Caso #4: 4433555 555666096667775553
