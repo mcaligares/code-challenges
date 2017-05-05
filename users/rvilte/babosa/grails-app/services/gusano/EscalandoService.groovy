@@ -8,6 +8,11 @@ class EscalandoService {
     def tiempoDeSubida(int profundidad, int pulgadaXmin, int pulgadaDesliza) {
         int alturaEscalada = 0
         int tiempoDemora = 0
+
+        if (!validaIngresos(profundidad, pulgadaXmin, pulgadaDesliza)){
+            return tiempoDemora
+        }
+
         while (alturaEscalada < profundidad){
             alturaEscalada += pulgadaXmin
             tiempoDemora += 1
@@ -17,5 +22,9 @@ class EscalandoService {
             }
         }
         return tiempoDemora
+    }
+
+    def validaIngresos(int profundidad, int pulgadaXmin, int pulgadaDesliza){
+        return (pulgadaDesliza < pulgadaXmin && profundidad < 100)
     }
 }

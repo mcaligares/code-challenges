@@ -26,5 +26,6 @@ class EscalandoServiceSpec extends Specification {
             profundidad | pulgadaXmin | pulgadaDesliza | tiempodemora
             10 | 2 | 1 | 17
             20 | 3 | 1 | 19
+            0 | 0 | 0 | 0
     }
 }
