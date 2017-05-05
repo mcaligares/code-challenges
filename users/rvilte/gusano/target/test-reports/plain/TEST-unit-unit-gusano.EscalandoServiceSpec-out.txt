@@ -1,2 +1,0 @@
---Output from gusano escalando espera tardar 17--
---Output from gusano escalando espera tardar 19--
