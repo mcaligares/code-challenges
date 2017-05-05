@@ -8,9 +8,7 @@ Habrá varias instancias del problema. Cada línea contendrá 3 enteros positivo
 Salida
 Cada instancia de entrada debe generar un número entero en una línea, indicando el número de minutos que toma para que el gusano logre salir del pozo.
 
-Entrada y salida de Prueba
-10 2 1
-20 3 1
+Entrada -> salida de Prueba
+10 2 1 -> 17
+20 3 1 -> 19
 0 0 0
-17
-19
