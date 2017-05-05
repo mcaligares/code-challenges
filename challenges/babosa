@@ -9,6 +9,7 @@ Salida
 Cada instancia de entrada debe generar un número entero en una línea, indicando el número de minutos que toma para que el gusano logre salir del pozo.
 
 Entrada -> salida de Prueba
+profundidad - mts x min - desliza -> tiempo total
 10 2 1 -> 17
 20 3 1 -> 19
 0 0 0

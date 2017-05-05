@@ -3,6 +3,7 @@
 
 ## Uso
 ```bash
+npm install
 #crear nuevo workspace
 gulp --username mcaligares --language java
 #crear nuevo workspace con alias

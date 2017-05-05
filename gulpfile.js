@@ -29,7 +29,7 @@ var getLanguageWorkspace = function() {
     return settings.templatesPath + '/' + language;
 };
 
-gulp.task('default', ['check', 'update', 'start']);
+gulp.task('default', ['check', 'start']);
 
 gulp.task('check', function() {
     if (!fs.existsSync(settings.usersPath)) fs.mkdirSync(settings.usersPath);
@@ -180,7 +180,7 @@ var executeScript = through.obj(function(challenge, enc, cb) {
     }
 });
 
-gulp.task('start', ['update'], function() {
+gulp.task('start', function() {
     return gulp.src(settings.templatesPath)
         .pipe(args.interactive ? showHeader : gutil.noop())
         .pipe(args.interactive ? confirm(confirmUsername) : gutil.noop())

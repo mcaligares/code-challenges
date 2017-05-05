@@ -1,0 +1,13 @@
+Testsuite: gusano.EscalandoServiceSpec
+Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 1,956 sec
+------------- Standard Output ---------------
+--Output from gusano escalando espera tardar 17--
+--Output from gusano escalando espera tardar 19--
+------------- ---------------- ---------------
+------------- Standard Error -----------------
+--Output from gusano escalando espera tardar 17--
+--Output from gusano escalando espera tardar 19--
+------------- ---------------- ---------------
+
+Testcase: gusano escalando espera tardar 17 took 1,856 sec
+Testcase: gusano escalando espera tardar 19 took 0,039 sec
