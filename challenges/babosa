@@ -1,0 +1,16 @@
+Gusano Escalando
+
+Un gusano está en el fondo de un pozo de n pulgadas de profundidad. Tiene energía suficiente para trepar u pulgadas por minuto, pero luego tiene que descansar un minuto antes de subir de nuevo. Durante el descanso, se desliza hacia abajo d pulgadas. Este proceso de escalada y de descanso, se repite. ¿Cuánto tiempo pasara antes de que el gusano logre salir del pozo? Siempre se cuenta una parte de minuto, como un minuto y si el gusano acaba de llegar a la cima al final de su escalada, vamos a asumir el gusano ya esta fuera.
+
+Entrada
+Habrá varias instancias del problema. Cada línea contendrá 3 enteros positivos n, u y d. Estos seran los valores mencionados en el párrafo anterior. Por otra parte, puede suponer que d < u y n < 100. Un valor de n = 0 indica el final del problema.
+
+Salida
+Cada instancia de entrada debe generar un número entero en una línea, indicando el número de minutos que toma para que el gusano logre salir del pozo.
+
+Entrada y salida de Prueba
+10 2 1
+20 3 1
+0 0 0
+17
+19
