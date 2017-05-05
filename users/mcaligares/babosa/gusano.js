@@ -2,13 +2,13 @@
 function escalar(pulgadasDeProfundidad, pulgadasPorMinuto, pulgadasDeBajada) {
     var minutos = 0
 
-    if (validateParams(profundidad, subida, caida)) {
+    if (validateParams(pulgadasDeProfundidad, pulgadasPorMinuto, pulgadasDeBajada)) {
         var temp = pulgadasDeProfundidad;
         while (temp > 0) {
             temp -= pulgadasPorMinuto;
             minutos ++;
             if (temp > 0) {
-                temp += caida;
+                temp += pulgadasDeBajada;
                 minutos ++;
             }
         }
