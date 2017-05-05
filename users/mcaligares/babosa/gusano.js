@@ -1,8 +1,5 @@
 
-function escalar(profundidad, subida, caida) {
-    var pulgadasDeProfundidad = profundidad;
-    var pulgadasPorMinuto = subida;
-    var pulgadasDeBajada = caida;
+function escalar(pulgadasDeProfundidad, pulgadasPorMinuto, pulgadasDeBajada) {
     var minutos = 0
 
     if (validateParams(profundidad, subida, caida)) {
@@ -16,6 +13,7 @@ function escalar(profundidad, subida, caida) {
             }
         }
     }
+
     return minutos;
 };
 
