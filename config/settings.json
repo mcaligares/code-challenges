@@ -5,7 +5,8 @@
     "languages": [
         "groovy",
         "java",
-        "javascript"
+        "javascript",
+		"python"
     ],
     "ignoreFiles": {
         "groovy": [
@@ -32,7 +33,10 @@
         ],
         "groovy": [
             "groovy CodeChallenge.groovy"
-        ]
+        ],
+		"python": [
+			"nosetests -v"
+		]
     }
 
 }
